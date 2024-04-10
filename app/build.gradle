@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.example.tp_mtg_api'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.tp_mtg_api"
