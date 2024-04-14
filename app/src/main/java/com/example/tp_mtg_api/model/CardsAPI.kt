@@ -6,5 +6,5 @@ import retrofit2.http.Query
 
 interface CardsAPI {
     @GET("/search")
-    fun getCards(@Query("q") name : String) : Call<ArrayList<Card>>
+    suspend fun getCards(@Query("q") name : String) : Call<ArrayList<Card>>
 }
