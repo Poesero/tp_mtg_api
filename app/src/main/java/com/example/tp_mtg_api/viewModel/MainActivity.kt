@@ -1,5 +1,6 @@
 package com.example.tp_mtg_api.viewModel
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         bindViewModel()
+
     }
 
     override fun onStart() {
@@ -19,9 +21,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindViewModel(){
+        val dialog = Dialog(this)
+        setContentView(R.layout.layout_custom_login)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.cards.observe(this){
-
         }
 
     }

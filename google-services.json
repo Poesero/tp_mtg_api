@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "795618817390",
+    "project_id": "the-gatherer-project",
+    "storage_bucket": "the-gatherer-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795618817390:android:7bc57eeffc10344f9a3d7f",
+        "android_client_info": {
+          "package_name": "com.example.tp_mtg_api"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFi_x6wrjkODFlE2s5IWmPInPJn_tgDr0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
