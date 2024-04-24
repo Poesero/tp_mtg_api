@@ -3,6 +3,7 @@ package com.example.tp_mtg_api.viewModel
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.tp_mtg_api.R
 

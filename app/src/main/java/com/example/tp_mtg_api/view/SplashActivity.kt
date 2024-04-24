@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -26,9 +27,6 @@ class SplashActivity : AppCompatActivity() {
         loginBtn.setOnClickListener{
             showLoginBox()
         }
-
-
-
 /*
         Handler(Looper.getMainLooper()).postDelayed({
             var intent = Intent(this, MainActivity::class.java)
@@ -61,5 +59,6 @@ class SplashActivity : AppCompatActivity() {
 
 
         dialog.show()
+
     }
 }
