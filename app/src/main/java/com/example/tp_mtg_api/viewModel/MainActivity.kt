@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindViewModel(){
-        val dialog = Dialog(this)
-        setContentView(R.layout.layout_custom_login)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.cards.observe(this){
         }
