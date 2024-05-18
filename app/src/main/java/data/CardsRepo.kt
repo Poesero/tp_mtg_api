@@ -1,4 +1,6 @@
-package com.example.tp_mtg_api.model
+package data
+
+import model.Card
 
 class CardsRepo {
 

@@ -1,4 +1,4 @@
-package com.example.tp_mtg_api.model
+package model
 
 data class Card (
         var obj: String? = null,

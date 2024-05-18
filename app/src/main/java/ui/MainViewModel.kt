@@ -1,10 +1,10 @@
-package com.example.tp_mtg_api.viewModel
+package ui
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.tp_mtg_api.model.Card
-import com.example.tp_mtg_api.model.CardsRepo
+import model.Card
+import data.CardsRepo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext

@@ -1,5 +1,6 @@
-package com.example.tp_mtg_api.model
+package data
 
+import model.Card
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

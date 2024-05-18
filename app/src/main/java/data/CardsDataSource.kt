@@ -1,6 +1,7 @@
-package com.example.tp_mtg_api.model
+package data
 
 import android.util.Log
+import model.Card
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
