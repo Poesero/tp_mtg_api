@@ -7,14 +7,23 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Window
 import android.widget.Button
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tp_mtg_api.R
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_custom_login)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_login)
 
+        val loginBtn: Button = findViewById(R.id.loginBtn)
+
+        loginBtn.setOnClickListener {
+            var intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+
+        }
 
         val dialog = Dialog(this)
 
