@@ -7,6 +7,7 @@
     tools:context="ui.MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/beleren2016smallcaps_bolditalic"
@@ -21,6 +22,7 @@
         app:layout_constraintVertical_bias="0.1" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -30,34 +32,40 @@
 
         <ImageButton
             android:id="@+id/search_btn"
-            android:background="@drawable/round_corners"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="bottom"
-            app:srcCompat="@android:drawable/ic_menu_gallery"
-            />
+            android:layout_weight="1"
+            android:background="@drawable/round_corners"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
 
         <ImageButton
             android:id="@+id/fav_btn"
-            android:background="@drawable/round_corners"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="bottom"
-            app:srcCompat="@android:drawable/ic_menu_gallery"
-            />
+            android:layout_weight="1"
+            android:background="@drawable/round_corners"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
 
         <ImageButton
-            android:background="@drawable/round_corners"
             android:id="@+id/switch_mode_btn3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="bottom"
-            app:srcCompat="@android:drawable/ic_menu_gallery"
-            />
+            android:layout_weight="1"
+            android:background="@drawable/round_corners"
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
     </LinearLayout>
+
+    <SearchView
+        android:layout_width="400dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/orange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
