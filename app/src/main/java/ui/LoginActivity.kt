@@ -13,11 +13,13 @@ import com.example.tp_mtg_api.R
 
 class LoginActivity : AppCompatActivity() {
 
-    private val loginBtn: Button = findViewById(R.id.loginBtn)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
+        enableEdgeToEdge()
         setContentView(R.layout.activity_login)
+
+        val loginBtn: Button = findViewById(R.id.loginBtn)
 
 
         loginBtn.setOnClickListener {

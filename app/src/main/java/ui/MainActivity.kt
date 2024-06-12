@@ -12,10 +12,11 @@ import com.example.tp_mtg_api.R
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
 
-    private val searchBtn: ImageButton = findViewById(R.id.search_btn)
+    private lateinit var searchBtn: ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        searchBtn = findViewById(R.id.search_btn)
         bindViewModel()
 
         searchBtn.setOnClickListener{
