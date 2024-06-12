@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_colour"
     tools:context="ui.MainActivity">
 
     <TextView
@@ -37,7 +38,7 @@
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="@drawable/round_corners"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
+            app:srcCompat="@android:drawable/ic_menu_search" />
 
         <ImageButton
             android:id="@+id/fav_btn"
@@ -62,7 +63,7 @@
         android:layout_width="400dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
-        android:background="@color/orange"
+        android:background="@color/button2_colour"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
