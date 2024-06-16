@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.tp_mtg_api.R
 
+
 class SearchActivity : AppCompatActivity() {
     private lateinit var viewModel: SearchViewModel
 
