@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/background_colour"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -14,39 +14,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginBottom="10dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="590dp"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:gravity="center">
+            android:layout_marginLeft="1dp">
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="180dp"
-                android:layout_height="66dp"
-                android:layout_margin="6dp"
-                android:text="Back" />
+            <ImageButton
+                android:id="@+id/step_back"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="?attr/actionModeCloseDrawable"
+                android:layout_marginRight="1dp"/>
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="180dp"
-                android:layout_height="66dp"
-                android:layout_margin="6dp"
-                android:text="Home" />
-
-
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"/>
         </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
 
 
 

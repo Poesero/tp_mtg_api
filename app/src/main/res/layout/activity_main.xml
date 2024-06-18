@@ -60,13 +60,16 @@
     </LinearLayout>
 
     <SearchView
+        android:id="@+id/searchView"
         android:layout_width="400dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:background="@color/button2_colour"
+        android:queryHint= "Search for Magic cards..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

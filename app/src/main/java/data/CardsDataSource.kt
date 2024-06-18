@@ -18,14 +18,12 @@ class CardsDataSource {
             .baseUrl(_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build().create(CardsAPI::class.java)
-
-        var result = api.getCards(name).execute()
-
-        return if (result.isSuccessful) {
+        return try {
+            val result = api.getCards(name)
             Log.d(_TAG, "Resultado Exitoso")
-            result.body() ?: ArrayList<Card>()
-        }else{
-            Log.e(_TAG,"Error en llamado API: "+ result.message())
+            result
+        } catch (e: Exception) {
+            Log.e(_TAG, "Error en llamado API: ${e.message}")
             ArrayList<Card>()
         }
     }
