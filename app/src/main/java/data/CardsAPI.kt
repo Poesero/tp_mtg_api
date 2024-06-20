@@ -1,11 +1,10 @@
 package data
 
-import model.Card
-import retrofit2.Call
+import model.CardResult
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface CardsAPI {
     @GET("/search")
-    suspend fun getCards(@Query("q") name : String) : ArrayList<Card>
+    suspend fun getCards(@Query("q") name : String) : CardResult
 }

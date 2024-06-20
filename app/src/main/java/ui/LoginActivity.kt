@@ -9,6 +9,7 @@ import android.view.Window
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+//import com.google.firebase.auth.FirebaseAuth
 import com.example.tp_mtg_api.R
 
 class LoginActivity : AppCompatActivity() {
@@ -27,6 +28,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
 
         }
+
+        //firebaseAuth = FirebaseAuth.getInstance()
+        //checkUser()
 
         val dialog = Dialog(this)
 
