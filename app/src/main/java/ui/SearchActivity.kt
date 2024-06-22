@@ -1,15 +1,15 @@
 package ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,12 +17,15 @@ import com.bumptech.glide.Glide
 import com.example.tp_mtg_api.R
 
 
+
 class SearchActivity : AppCompatActivity() {
+    private val EL_PROBLEMA = "API-CHECK"
     private lateinit var cvCards: RecyclerView
     private lateinit var adapter: CardsAdapter
     private lateinit var viewModel: SearchViewModel
     private lateinit var imageButton: ImageButton
     private lateinit var searchView: SearchView
+    private lateinit var img: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,13 +63,17 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
-        val id = intent.getStringExtra("id")!!
+       // img = findViewById(R.id.card_img)
+
+        val query = intent.getStringExtra("query")!!
+        Log.d("SearchActivity", "Received query: $query")
 
         viewModel.card.observe(this){
             //placeholder code from prof's code...
-           // name.text = it.name
-           // url.text = it.domains[0]
-           // Glide.with(this).load(it.imageUrl).into(img)
+
+           Glide.with(this)
+               .load(it.image_uris)
+               .into(img)
         }
 
         imageButton = findViewById(R.id.step_back)
@@ -76,17 +83,7 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
-        viewModel.init(id)
+        viewModel.init(query)
     }
 
-    /*override fun onStart(){
-        super.onStart()
-        viewModel.onStart()
-    }
-
-    private fun bindViewModel(){
-        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
-    }
-
-     */
 }

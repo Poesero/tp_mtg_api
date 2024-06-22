@@ -1,5 +1,6 @@
 package ui
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,7 @@ import data.CardsRepo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.newSingleThreadContext
 import model.Card
+import model.CardImages
 import kotlin.coroutines.CoroutineContext
 
 class SearchViewModel : ViewModel() {

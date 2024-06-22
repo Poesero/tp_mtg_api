@@ -1,5 +1,7 @@
 package ui
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,16 +17,24 @@ class CardsAdapter : RecyclerView.Adapter<CardViewHolder>() {
     }
 
     override fun getItemCount(): Int {
+        Log.d("Size", "Size: " + items.size)
         return items.size
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        holder.name.text = items[position].name
-       // holder.img.image = items[position].domains[0]
+
+
+        holder.itemView.setOnClickListener {
+            var id = items[position].name
+            val intent = Intent(holder.itemView.context, SearchActivity::class.java)
+            intent.putExtra("id", id)
+            holder.itemView.context.startActivity(intent)
+        }
+
     }
     fun Update(lista: MutableList<Card>){
         items = lista
         this.notifyDataSetChanged()
     }
-
 }
+

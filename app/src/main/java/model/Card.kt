@@ -8,5 +8,5 @@ data class Card (
         var toughness: String? = null,
         var type_line: String? = null,
         var oracle_text: String? = null,
-        var image_uris: CardImages
+        var image_uris: CardImages? = null
 )

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tp_mtg_api.R
 
 class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-    val name: TextView = itemView.findViewById(R.id.txtName)
     val img: ImageView = itemView.findViewById(R.id.card_img)
     /*recordar: se setea img usando la libreria Glide*/
 }
