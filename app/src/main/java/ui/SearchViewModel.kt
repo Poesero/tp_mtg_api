@@ -13,17 +13,22 @@ import model.CardImages
 import kotlin.coroutines.CoroutineContext
 
 class SearchViewModel : ViewModel() {
+    private val _TAG_ = "API-CHECK"
     private val cardsRepo: CardsRepo = CardsRepo()
     private val coroutineContext: CoroutineContext = newSingleThreadContext("card")
     private val scope = CoroutineScope(coroutineContext)
             var card: MutableLiveData<Card> = MutableLiveData<Card>()
             var cards: MutableLiveData<ArrayList<Card>> = MutableLiveData<ArrayList<Card>>()
-    fun init(id: String){
+    fun init(name: String){
         scope.launch{
             kotlin.runCatching {
-                cardsRepo.getCards(id)
+                cardsRepo.getCards(name)
             }.onSuccess {
-                card.postValue((it ?: Card()) as Card?)
+                Log.d(_TAG_,"Cards on success: ${cards.value} ")
+                cards.postValue(it)
+                if (it.isNotEmpty()) {
+                    card.postValue(it[0])
+                }
             }.onFailure {
                 val carb = Card()
                 carb.name = "Error."

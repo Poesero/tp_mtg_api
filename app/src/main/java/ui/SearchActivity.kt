@@ -32,8 +32,8 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.searcher)){ v , insets ->
-            val  systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.searcher)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
@@ -42,17 +42,19 @@ class SearchActivity : AppCompatActivity() {
         cvCards.layoutManager = LinearLayoutManager(this)
         adapter = CardsAdapter()
         cvCards.adapter = adapter
+
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
-        viewModel.cards.observe(this){
+        viewModel.cards.observe(this) {
             adapter.Update(it)
         }
 
         searchView = findViewById(R.id.searchView)
         searchView.isIconified = false
         searchView.clearFocus()
-        searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
+                    viewModel.init(it)
                 }
                 searchView.clearFocus()
                 return true
@@ -63,19 +65,6 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
-       // img = findViewById(R.id.card_img)
-
-        val query = intent.getStringExtra("query")!!
-        Log.d("SearchActivity", "Received query: $query")
-
-        viewModel.card.observe(this){
-            //placeholder code from prof's code...
-
-           Glide.with(this)
-               .load(it.image_uris)
-               .into(img)
-        }
-
         imageButton = findViewById(R.id.step_back)
         imageButton.setOnClickListener {
             var intent = Intent(this,MainActivity::class.java)
@@ -83,7 +72,10 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
-        viewModel.init(query)
+        val name = intent.getStringExtra("name")!!
+        Log.d("SearchActivity", "Received query: $name")
+
+        viewModel.init(name)
     }
 
 }

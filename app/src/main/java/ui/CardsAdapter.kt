@@ -22,7 +22,9 @@ class CardsAdapter : RecyclerView.Adapter<CardViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+        val card = items[position]
 
+        card.image_uris?.let { holder.bind(it.png) }
 
         holder.itemView.setOnClickListener {
             var id = items[position].name

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
                     val intent = Intent(this@MainActivity,SearchActivity::class.java)
-                    intent.putExtra("query",it)
+                    intent.putExtra("name",it)
                     startActivity(intent)
                 }
                 searchView.clearFocus()

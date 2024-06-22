@@ -13,7 +13,7 @@ import kotlin.coroutines.CoroutineContext
 class MainViewModel : ViewModel() {
 
     //constante
-    private val _TAG = "API-CHECK"
+    private val _TAG_ = "API-CHECK"
     private val coroutineContext: CoroutineContext = newSingleThreadContext("Path")
     private val scope = CoroutineScope(coroutineContext)
     //Dependencias
@@ -28,10 +28,10 @@ class MainViewModel : ViewModel() {
             kotlin.runCatching {
                 cardsRepo.getCards(name)
             }.onSuccess {
-                Log.d(_TAG,"Cards on success ")
+                Log.d(_TAG_,"Cards on success ")
                 cards.postValue(it)
             }.onFailure {
-                Log.e(_TAG,"Cards error: " + it)
+                Log.e(_TAG_,"Cards error: " + it)
             }
         }
     }

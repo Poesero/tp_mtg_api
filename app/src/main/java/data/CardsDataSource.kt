@@ -21,6 +21,7 @@ class CardsDataSource {
         return try {
             val result = api.getCards(name)
             Log.d(_TAG, "Resultado Exitoso")
+            Log.d(_TAG, "${result.data} \n size:${result.data.size}")
             result.data
         } catch (e: Exception) {
             Log.e(_TAG, "Error en llamado API: ${e.message}")

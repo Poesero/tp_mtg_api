@@ -4,9 +4,17 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.tp_mtg_api.R
 
 class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+
     val img: ImageView = itemView.findViewById(R.id.card_img)
-    /*recordar: se setea img usando la libreria Glide*/
+    fun bind(imageUrl: String) {
+        Glide.with(itemView.context)
+            .load(imageUrl)
+            .placeholder(R.drawable.default_img) // Placeholder image while loading
+            .error(R.drawable.default_img) // Error image if loading fails
+            .into(img)
+    }
 }
