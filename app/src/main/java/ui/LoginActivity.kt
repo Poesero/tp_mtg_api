@@ -1,56 +1,93 @@
 package ui
 
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Window
+import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.appcompat.app.AppCompatActivity
-//import com.google.firebase.auth.FirebaseAuth
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.tp_mtg_api.R
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import java.lang.Exception
+
 
 class LoginActivity : AppCompatActivity() {
 
-
+private lateinit var loginBtn : Button
+    private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+        loginBtn = findViewById(R.id.loginBtn)
 
-        val loginBtn: Button = findViewById(R.id.loginBtn)
 
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions)
+        auth = FirebaseAuth.getInstance()
+
+        googleSignInLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            val data: Intent? = result.data
+            if (result.resultCode == RESULT_OK && data != null) {
+                val accountTask = GoogleSignIn.getSignedInAccountFromIntent(data)
+                try {
+                    val account = accountTask.getResult(ApiException::class.java)
+                    firebaseAuthWithGoogleAccount(account)
+                } catch (e: Exception) {
+                    Log.e("DEMO-API", "onActivityResult: ${e.message}")
+                }
+            }
+        }
 
         loginBtn.setOnClickListener {
-            var intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-
+            val intent = googleSignInClient.signInIntent
+            googleSignInLauncher.launch(intent)
         }
 
-        //firebaseAuth = FirebaseAuth.getInstance()
-        //checkUser()
-
-        val dialog = Dialog(this)
-
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.layout_custom_login)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val btnContinue : Button = dialog.findViewById(R.id.btn_continue)
-        val btnClose : Button = dialog.findViewById(R.id.btn_close)
-
-        btnContinue.setOnClickListener {
-            var intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        btnClose.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.show()
     }
+        private fun firebaseAuthWithGoogleAccount(account: GoogleSignInAccount?) {
+            val credential = GoogleAuthProvider.getCredential(account!!.idToken, null);this.auth.signInWithCredential(credential)
+                .addOnSuccessListener { authResult ->
+                    val firebaseUser = auth.currentUser
+                    val uid = firebaseUser!!.uid
+                    val email = firebaseUser.email
+
+                    if (authResult.additionalUserInfo!!.isNewUser) {
+                        Toast.makeText(this@LoginActivity, "Cuenta creada...", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Cuenta existente...", Toast.LENGTH_LONG).show()
+                    }
+
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    finish()
+                }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this@LoginActivity, "Login fallido...", Toast.LENGTH_LONG).show()
+                    }
+
+        }
 }

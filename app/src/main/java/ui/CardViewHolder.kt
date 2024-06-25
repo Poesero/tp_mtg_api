@@ -9,7 +9,7 @@ import com.example.tp_mtg_api.R
 
 class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
-    val img: ImageView = itemView.findViewById(R.id.card_img)
+    private val img: ImageView = itemView.findViewById(R.id.card_img)
     fun bind(imageUrl: String) {
         Glide.with(itemView.context)
             .load(imageUrl)

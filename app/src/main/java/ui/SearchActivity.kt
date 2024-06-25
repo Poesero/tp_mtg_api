@@ -25,7 +25,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var viewModel: SearchViewModel
     private lateinit var imageButton: ImageButton
     private lateinit var searchView: SearchView
-    private lateinit var img: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
