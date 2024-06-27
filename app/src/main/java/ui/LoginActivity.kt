@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
 private lateinit var loginBtn : Button
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
+   // private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -48,7 +48,7 @@ private lateinit var loginBtn : Button
         googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions)
         auth = FirebaseAuth.getInstance()
 
-        googleSignInLauncher = registerForActivityResult(
+       /* googleSignInLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             val data: Intent? = result.data
@@ -62,10 +62,12 @@ private lateinit var loginBtn : Button
                 }
             }
         }
+        */
 
         loginBtn.setOnClickListener {
             val intent = googleSignInClient.signInIntent
-            googleSignInLauncher.launch(intent)
+            //googleSignInLauncher.launch(intent)
+            startActivityForResult(intent,100)
         }
 
     }
@@ -89,5 +91,19 @@ private lateinit var loginBtn : Button
                         Toast.makeText(this@LoginActivity, "Login fallido...", Toast.LENGTH_LONG).show()
                     }
 
+        }
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+
+            if (requestCode == 100) {
+                val accountTask = GoogleSignIn.getSignedInAccountFromIntent(data)
+                try {
+                    val account = accountTask.getResult(ApiException::class.java)
+                    firebaseAuthWithGoogleAccount(account)
+                }
+                catch (e: Exception) {
+                    Log.d("DEMO-API", "onActivityResult: ${e.message}")
+                }
+            }
         }
 }

@@ -10,6 +10,7 @@ import model.Card
 
 class CardsAdapter : RecyclerView.Adapter<CardViewHolder>() {
 
+    var onItemClick : ((Card) -> Unit)? = null
     var items: MutableList<Card> = ArrayList<Card>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
@@ -27,7 +28,8 @@ class CardsAdapter : RecyclerView.Adapter<CardViewHolder>() {
         card.image_uris?.let { holder.bind(it.png) }
 
         holder.itemView.setOnClickListener {
-            var id = items[position].name
+            onItemClick?.invoke(card)
+            val id = items[position].name
             val intent = Intent(holder.itemView.context, SearchActivity::class.java)
             intent.putExtra("id", id)
             holder.itemView.context.startActivity(intent)

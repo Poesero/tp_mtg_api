@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tp_mtg_api.R
-
+import org.checkerframework.common.returnsreceiver.qual.This
 
 
 class SearchActivity : AppCompatActivity() {
@@ -75,6 +75,15 @@ class SearchActivity : AppCompatActivity() {
         Log.d("SearchActivity", "Received query: $name")
 
         viewModel.init(name)
+
+        adapter.onItemClick = {
+            var intent = Intent(this, DetailActivity::class.java).apply {
+            intent.putExtra("name", it.name)
+             }
+            startActivity(intent)
+            finish()
+        }
+
     }
 
 }

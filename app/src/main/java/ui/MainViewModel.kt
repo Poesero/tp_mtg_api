@@ -20,7 +20,7 @@ class MainViewModel : ViewModel() {
     private val cardsRepo = CardsRepo()
     //Propiedades
     var cards = MutableLiveData<ArrayList<Card>>()
-    var name = "Fatal"
+    var name = ""
 
     //Funciones
     fun onStart(){
