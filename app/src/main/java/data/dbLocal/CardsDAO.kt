@@ -1,26 +1,25 @@
 package data.dbLocal
-/*
+
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import retrofit2.http.DELETE
-import retrofit2.http.Query
+
 
 @Dao
 interface CardsDAO {
 
-    @Query("")
+    @Query("SELECT * FROM cards")
     fun getAll() : List<CardLocal>
-    @Query("")
+
+    @Query("SELECT * FROM cards WHERE name = :name LIMIT 1")
     fun getByPK(name: String):CardLocal
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(vararg card: CardLocal)
 
-    @DELETE
+    @Delete
     fun delete(card: CardLocal)
 }
 
- */

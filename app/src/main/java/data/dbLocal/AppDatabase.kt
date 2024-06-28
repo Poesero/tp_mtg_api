@@ -2,13 +2,13 @@ package data.dbLocal
 
 
 import android.content.Context
-//import androidx.room.Room
-//import androidx.room.RoomDatabase
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-/*abstract class AppDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun cardsDao(): CardsDAO
 
     companion object{
@@ -32,4 +32,3 @@ import kotlinx.coroutines.launch
     }
 }
 
- */
