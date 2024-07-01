@@ -11,7 +11,8 @@ import model.Card
 class CardsAdapter : RecyclerView.Adapter<CardViewHolder>() {
 
     var onItemClick : ((Card) -> Unit)? = null
-    var items: MutableList<Card> = ArrayList<Card>()
+    private var items: MutableList<Card> = ArrayList<Card>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
         return CardViewHolder(view)

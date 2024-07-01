@@ -14,7 +14,7 @@
         android:fontFamily="@font/beleren2016smallcaps_bolditalic"
         android:text="Welcome!!"
         android:textColor="@color/black"
-        android:textSize="40sp"
+        android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

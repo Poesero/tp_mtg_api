@@ -19,7 +19,6 @@ import org.checkerframework.common.returnsreceiver.qual.This
 
 
 class SearchActivity : AppCompatActivity() {
-    private val EL_PROBLEMA = "API-CHECK"
     private lateinit var cvCards: RecyclerView
     private lateinit var adapter: CardsAdapter
     private lateinit var viewModel: SearchViewModel
@@ -76,10 +75,10 @@ class SearchActivity : AppCompatActivity() {
 
         viewModel.init(name)
 
-        adapter.onItemClick = {
-            var intent = Intent(this, DetailActivity::class.java).apply {
-            intent.putExtra("name", it.name)
-             }
+        adapter.onItemClick = { card ->
+            val intent = Intent(this@SearchActivity, DetailActivity::class.java).apply {
+                putExtra("name", card.name)
+            }
             startActivity(intent)
             finish()
         }

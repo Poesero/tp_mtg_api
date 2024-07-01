@@ -14,7 +14,7 @@ class MainViewModel : ViewModel() {
 
     //constante
     private val _TAG_ = "API-CHECK"
-    private val coroutineContext: CoroutineContext = newSingleThreadContext("Path")
+    private val coroutineContext: CoroutineContext = newSingleThreadContext("")
     private val scope = CoroutineScope(coroutineContext)
     //Dependencias
     private val cardsRepo = CardsRepo()
