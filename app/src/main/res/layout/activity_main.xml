@@ -59,17 +59,79 @@
             app:srcCompat="@android:drawable/ic_menu_gallery" />
     </LinearLayout>
 
-    <SearchView
+    <android.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="400dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:background="@color/button2_colour"
-        android:queryHint= "Search for Magic cards..."
+        android:queryHint="Search for Magic cards..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView">
+
+        <ToggleButton
+            android:layout_marginHorizontal="2dp"
+            android:id="@+id/toggleButton_W"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/toggle_btn_w"
+            android:textOff=""
+            android:textOn=""/>
+
+        <ToggleButton
+            android:layout_marginHorizontal="2dp"
+            android:id="@+id/toggleButton_U"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:text="ToggleButton"
+            android:background="@drawable/toggle_btn_u"
+            android:textOff=""
+            android:textOn=""/>
+
+        <ToggleButton
+            android:layout_marginHorizontal="2dp"
+            android:id="@+id/toggleButton_B"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:text="ToggleButton"
+            android:background="@drawable/toggle_btn_b"
+            android:textOff=""
+            android:textOn=""/>
+
+        <ToggleButton
+            android:layout_marginHorizontal="2dp"
+            android:id="@+id/toggleButton_R"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:text="ToggleButton"
+            android:background="@drawable/toggle_btn_r"
+            android:textOff=""
+            android:textOn=""/>
+
+        <ToggleButton
+            android:layout_marginHorizontal="2dp"
+            android:id="@+id/toggleButton_G"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:text="ToggleButton"
+            android:background="@drawable/toggle_btn_g"
+            android:textOff=""
+            android:textOn=""/>
+
+    </LinearLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
