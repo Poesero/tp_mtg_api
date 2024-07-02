@@ -47,16 +47,16 @@
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="@drawable/round_corners"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
+            app:srcCompat="@drawable/fav_btn" />
 
         <ImageButton
-            android:id="@+id/switch_mode_btn3"
+            android:id="@+id/random_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="@drawable/round_corners"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
+            app:srcCompat="@android:drawable/ic_popup_sync" />
     </LinearLayout>
 
     <android.widget.SearchView

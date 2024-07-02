@@ -6,9 +6,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -26,7 +23,7 @@ import java.lang.Exception
 class LoginActivity : AppCompatActivity() {
 
 private lateinit var loginBtn : Button
-    private lateinit var auth: FirebaseAuth
+    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
    // private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +43,7 @@ private lateinit var loginBtn : Button
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions)
-        auth = FirebaseAuth.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
 
        /* googleSignInLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -69,41 +66,42 @@ private lateinit var loginBtn : Button
             //googleSignInLauncher.launch(intent)
             startActivityForResult(intent,100)
         }
-
     }
-        private fun firebaseAuthWithGoogleAccount(account: GoogleSignInAccount?) {
-            val credential = GoogleAuthProvider.getCredential(account!!.idToken, null);this.auth.signInWithCredential(credential)
-                .addOnSuccessListener { authResult ->
-                    val firebaseUser = auth.currentUser
-                    val uid = firebaseUser!!.uid
-                    val email = firebaseUser.email
 
-                    if (authResult.additionalUserInfo!!.isNewUser) {
-                        Toast.makeText(this@LoginActivity, "Cuenta creada...", Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(this@LoginActivity, "Cuenta existente...", Toast.LENGTH_LONG).show()
-                    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    finish()
-                }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this@LoginActivity, "Login fallido...", Toast.LENGTH_LONG).show()
-                    }
-
-        }
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            super.onActivityResult(requestCode, resultCode, data)
-
-            if (requestCode == 100) {
-                val accountTask = GoogleSignIn.getSignedInAccountFromIntent(data)
-                try {
-                    val account = accountTask.getResult(ApiException::class.java)
-                    firebaseAuthWithGoogleAccount(account)
-                }
-                catch (e: Exception) {
-                    Log.d("DEMO-API", "onActivityResult: ${e.message}")
-                }
+        if (requestCode == 100) {
+            val accountTask = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = accountTask.getResult(ApiException::class.java)
+                firebaseAuthWithGoogleAccount(account)
+            }
+            catch (e: Exception) {
+                Log.d("DEMO-API", "onActivityResult: ${e.message}")
             }
         }
+    }
+
+    private fun firebaseAuthWithGoogleAccount(account: GoogleSignInAccount?) {
+        val credential = GoogleAuthProvider.getCredential(account!!.idToken, null)
+        firebaseAuth.signInWithCredential(credential)
+            .addOnSuccessListener { authResult ->
+                val firebaseUser = firebaseAuth.currentUser
+                val uid = firebaseUser!!.uid
+                val email = firebaseUser.email
+                if (authResult.additionalUserInfo!!.isNewUser) {
+                    Toast.makeText(this@LoginActivity, "Cuenta creada...", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this@LoginActivity, "Cuenta existente...", Toast.LENGTH_LONG).show()
+                }
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this@LoginActivity, "Login fallido...", Toast.LENGTH_LONG).show()
+            }
+
+        }
+
 }

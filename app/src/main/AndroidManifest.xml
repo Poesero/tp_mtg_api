@@ -38,6 +38,10 @@
             android:name="ui.DetailActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name="ui.FavActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

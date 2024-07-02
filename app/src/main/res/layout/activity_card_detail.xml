@@ -64,6 +64,37 @@
             android:layout_marginBottom="2dp"
             app:srcCompat="@drawable/default_img" />
 
+    <LinearLayout
+        android:id="@+id/mid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        >
+        <TextView
+            android:id="@+id/type_line"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="holder"
+            android:fontFamily="@font/beleren2016smallcaps_bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:layout_weight="30">
+        </TextView>
+
+        <ToggleButton
+            android:id="@+id/fav_btn"
+            android:textOff=""
+            android:textOn=""
+            android:layout_weight="0"
+            android:layout_gravity="end|right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fav_btn"/>
+
+    </LinearLayout>
+
         <ScrollView
             android:background="@color/light_grey"
             android:layout_gravity="center"
@@ -92,7 +123,7 @@
         </ScrollView>
 
 
-
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

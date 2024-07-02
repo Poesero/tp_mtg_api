@@ -13,6 +13,8 @@ import com.example.tp_mtg_api.R
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var searchBtn: ImageButton
+    private lateinit var favBtn: ImageButton
+    private lateinit var randBtn: ImageButton
     private lateinit var searchView: SearchView
 
     private lateinit var white: ToggleButton
@@ -51,10 +53,24 @@ class MainActivity : AppCompatActivity() {
         red= findViewById (R.id.toggleBtn_R)
         green = findViewById (R.id.toggleBtn_G)
 
+        favBtn = findViewById(R.id.fav_btn)
         searchBtn = findViewById(R.id.search_btn)
+        randBtn = findViewById(R.id.random_btn)
+
         bindViewModel()
+
         searchBtn.setOnClickListener{
             val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
+        }
+        favBtn.setOnClickListener{
+            val intent = Intent(this,FavActivity::class.java)
+            startActivity(intent)
+        }
+        randBtn.setOnClickListener{
+            val intent = Intent(this,DetailActivity::class.java).apply {
+            putExtra("random",true)
+            }
             startActivity(intent)
         }
     }

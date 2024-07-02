@@ -10,21 +10,21 @@ import kotlinx.coroutines.newSingleThreadContext
 import model.Card
 import kotlin.coroutines.CoroutineContext
 
-class DetailViewModel  : ViewModel() {
+class FavViewmodel: ViewModel() {
     private val _TAG = "API-CHECK"
     private val cardsRepo: CardsRepo = CardsRepo()
     private val coroutineContext: CoroutineContext = newSingleThreadContext("card")
     private val scope = CoroutineScope(coroutineContext)
-            var card: MutableLiveData<Card> = MutableLiveData<Card>()
+    private var card: MutableLiveData<Card> = MutableLiveData<Card>()
+    var cards: MutableLiveData<ArrayList<Card>> = MutableLiveData<ArrayList<Card>>()
 
-
-    fun init(name: String) {
+    fun init(name: String){
         scope.launch{
             kotlin.runCatching {
                 cardsRepo.getCards(name)
             }.onSuccess {
-                Log.d(_TAG,"Cards on success: ${card.value} ")
-                card.postValue(card.value)
+                Log.d(_TAG,"Cards on success: ${cards.value} ")
+                cards.postValue(it)
                 if (it.isNotEmpty()) {
                     card.postValue(it[0])
                 }
@@ -35,18 +35,5 @@ class DetailViewModel  : ViewModel() {
             }
         }
 
-    }
-
-    fun fetchRandomCard() {
-        scope.launch {
-            kotlin.runCatching {
-                cardsRepo.getRandom()
-            }.onSuccess {
-                card.postValue(it)
-            }.onFailure { e ->
-                Log.e(_TAG, "Error fetching random card: ${e.message}")
-                card.postValue(Card(name = "Error fetching random card"))
-            }
-        }
     }
 }

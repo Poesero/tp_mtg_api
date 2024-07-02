@@ -1,9 +1,12 @@
 package ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,9 +17,12 @@ import com.bumptech.glide.Glide
 import com.example.tp_mtg_api.R
 
 class DetailActivity : AppCompatActivity() {
+    private lateinit var imageButton: ImageButton
+    private lateinit var favBtn: ToggleButton
     private lateinit var cardImg: ImageView
     private lateinit var cardName: TextView
     private lateinit var oracleTxt: TextView
+    private lateinit var typeTxt: TextView
     private lateinit var viewModel: DetailViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,20 +34,33 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
+        favBtn = findViewById(R.id.fav_btn)
         cardImg = findViewById(R.id.card_img)
         cardName = findViewById(R.id.card_name)
         oracleTxt = findViewById(R.id.oracle_txt)
+        typeTxt = findViewById(R.id.type_line)
+        imageButton = findViewById(R.id.step_back)
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
 
 
-        val name = intent.getStringExtra("name")!!
+        val isRandom = intent.getBooleanExtra("random", false)
+        val name = intent.getStringExtra("name") ?: ""
         Log.d("DetailActivity", "Received query: $name")
 
-        viewModel.init(name)
+        imageButton.setOnClickListener{
+            finish()
+        }
+
+        if (isRandom){
+            viewModel.fetchRandomCard()
+        } else
+            viewModel.init(name)
+
         viewModel.card.observe(this,Observer{ card ->
             card?.let {
                 cardName.text = it.name
                 oracleTxt.text = it.oracle_text
+                typeTxt.text = it.type_line
                 Glide.with(this)
                     .load(it.image_uris?.png)
                     .placeholder(R.drawable.default_img)

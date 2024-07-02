@@ -9,4 +9,8 @@ class CardsRepo {
     suspend fun  getCards(name:String) : ArrayList<Card>{
         return cardsDS.getCards(name)
     }
+
+    suspend fun getRandom(): Card {
+        return cardsDS.getRandom()
+    }
 }
