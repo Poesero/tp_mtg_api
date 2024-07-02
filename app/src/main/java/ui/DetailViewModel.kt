@@ -29,9 +29,9 @@ class DetailViewModel  : ViewModel() {
                     card.postValue(it[0])
                 }
             }.onFailure {
-                val carb = Card()
+                val carb = Card(name = "ERROR")
                 carb.name = "Error."
-                card.postValue(Card())
+                card.postValue(Card(name = "ERROR"))
             }
         }
 

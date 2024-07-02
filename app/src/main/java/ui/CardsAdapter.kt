@@ -37,7 +37,7 @@ class CardsAdapter : RecyclerView.Adapter<CardViewHolder>() {
         }
 
     }
-    fun Update(lista: MutableList<Card>){
+    fun update(lista: MutableList<Card>){
         items = lista
         this.notifyDataSetChanged()
     }

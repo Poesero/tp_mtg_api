@@ -54,14 +54,14 @@ class MainActivity : AppCompatActivity() {
         searchBtn = findViewById(R.id.search_btn)
         bindViewModel()
         searchBtn.setOnClickListener{
-            var intent = Intent(this, SearchActivity::class.java)
+            val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.onStart(this)
+        viewModel.onStart()
     }
 
     private fun bindViewModel(){

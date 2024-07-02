@@ -3,13 +3,11 @@ package ui
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import data.CardsRepo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.newSingleThreadContext
 import model.Card
-import model.CardImages
 import kotlin.coroutines.CoroutineContext
 
 class SearchViewModel : ViewModel() {
@@ -31,9 +29,9 @@ class SearchViewModel : ViewModel() {
                     card.postValue(it[0])
                 }
             }.onFailure {
-                val carb = Card()
+                val carb = Card(name = "ERROR")
                 carb.name = "Error."
-                card.postValue(Card())
+                card.postValue(Card(name = "ERROR"))
             }
         }
 

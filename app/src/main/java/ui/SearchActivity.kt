@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -13,9 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.tp_mtg_api.R
-import org.checkerframework.common.returnsreceiver.qual.This
 
 
 class SearchActivity : AppCompatActivity() {
@@ -43,7 +40,7 @@ class SearchActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
         viewModel.cards.observe(this) {
-            adapter.Update(it)
+            adapter.update(it)
         }
 
         searchView = findViewById(R.id.searchView)
