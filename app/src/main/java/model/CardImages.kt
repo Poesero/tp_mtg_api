@@ -1,5 +1,5 @@
 package model
 
-data class CardImages(
+data class CardImages (
         var png: String
 )

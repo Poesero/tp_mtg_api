@@ -5,13 +5,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.SearchView
+import android.widget.ToggleButton
 import androidx.lifecycle.ViewModelProvider
 import com.example.tp_mtg_api.R
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var searchBtn: ImageButton
     private lateinit var searchView: SearchView
+
+    private lateinit var white: ToggleButton
+    private lateinit var blue: ToggleButton
+    private lateinit var black: ToggleButton
+    private lateinit var red: ToggleButton
+    private lateinit var green: ToggleButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +45,12 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+        white= findViewById (R.id.toggleBtn_W)
+        blue= findViewById (R.id.toggleBtn_U)
+        black= findViewById (R.id.toggleBtn_B)
+        red= findViewById (R.id.toggleBtn_R)
+        green = findViewById (R.id.toggleBtn_G)
+
         searchBtn = findViewById(R.id.search_btn)
         bindViewModel()
         searchBtn.setOnClickListener{
@@ -47,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.onStart()
+        viewModel.onStart(this)
     }
 
     private fun bindViewModel(){

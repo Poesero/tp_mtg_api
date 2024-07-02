@@ -82,7 +82,7 @@
 
         <ToggleButton
             android:layout_marginHorizontal="2dp"
-            android:id="@+id/toggleButton_W"
+            android:id="@+id/toggleBtn_W"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:background="@drawable/toggle_btn_w"
@@ -91,7 +91,7 @@
 
         <ToggleButton
             android:layout_marginHorizontal="2dp"
-            android:id="@+id/toggleButton_U"
+            android:id="@+id/toggleBtn_U"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:text="ToggleButton"
@@ -101,7 +101,7 @@
 
         <ToggleButton
             android:layout_marginHorizontal="2dp"
-            android:id="@+id/toggleButton_B"
+            android:id="@+id/toggleBtn_B"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:text="ToggleButton"
@@ -111,7 +111,7 @@
 
         <ToggleButton
             android:layout_marginHorizontal="2dp"
-            android:id="@+id/toggleButton_R"
+            android:id="@+id/toggleBtn_R"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:text="ToggleButton"
@@ -121,7 +121,7 @@
 
         <ToggleButton
             android:layout_marginHorizontal="2dp"
-            android:id="@+id/toggleButton_G"
+            android:id="@+id/toggleBtn_G"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:text="ToggleButton"
