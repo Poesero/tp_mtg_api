@@ -12,7 +12,12 @@
           "package_name": "com.example.tp_mtg_api"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "795618817390-mju81f2dnn9qk14444h4pqanggm4at40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAFi_x6wrjkODFlE2s5IWmPInPJn_tgDr0"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795618817390-mju81f2dnn9qk14444h4pqanggm4at40.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
