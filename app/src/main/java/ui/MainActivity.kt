@@ -8,6 +8,7 @@ import android.widget.SearchView
 import android.widget.ToggleButton
 import androidx.lifecycle.ViewModelProvider
 import com.example.tp_mtg_api.R
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var favBtn: ImageButton
     private lateinit var randBtn: ImageButton
     private lateinit var searchView: SearchView
+    private lateinit var firebaseAuth: FirebaseAuth
 
     private lateinit var white: ToggleButton
     private lateinit var blue: ToggleButton
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //checkUser()
 
         searchView = findViewById(R.id.searchView)
         searchView.isIconified = false
@@ -57,6 +61,8 @@ class MainActivity : AppCompatActivity() {
         searchBtn = findViewById(R.id.search_btn)
         randBtn = findViewById(R.id.random_btn)
 
+        firebaseAuth = FirebaseAuth.getInstance()
+
         bindViewModel()
 
         searchBtn.setOnClickListener{
@@ -80,6 +86,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.onStart()
     }
 
+    private fun checkUser(){
+        val  firebaseUser = firebaseAuth.currentUser
+        if (firebaseUser == null){
+            startActivity(Intent(this,LoginActivity::class.java))
+            finish()
+        }
+    }
     private fun bindViewModel(){
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.cards.observe(this){
