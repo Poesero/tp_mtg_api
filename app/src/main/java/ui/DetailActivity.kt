@@ -3,8 +3,10 @@ package ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.activity.enableEdgeToEdge
@@ -24,6 +26,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var oracleTxt: TextView
     private lateinit var typeTxt: TextView
     private lateinit var viewModel: DetailViewModel
+    lateinit var pb : ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
+        pb = findViewById(R.id.progressbar)
         favBtn = findViewById(R.id.fav_btn)
         cardImg = findViewById(R.id.card_img)
         cardName = findViewById(R.id.card_name)
@@ -51,6 +55,7 @@ class DetailActivity : AppCompatActivity() {
             finish()
         }
 
+        pb.visibility= View.VISIBLE
         if (isRandom){
             viewModel.fetchRandomCard()
         } else
@@ -58,6 +63,7 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel.card.observe(this,Observer{ card ->
             card?.let {
+                pb.visibility = View.INVISIBLE
                 cardName.text = it.name
                 oracleTxt.text = it.oracle_text
                 typeTxt.text = it.type_line

@@ -2,6 +2,7 @@ package data
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.delay
 import model.Card
 
 import retrofit2.Retrofit
@@ -14,7 +15,7 @@ class CardsDataSource {
 
     suspend fun getCardsColors(name: String,color: String): ArrayList<Card>{
         Log.d(_TAG,"Cards Datasource GetColorCards")
-
+        delay(5000)
         val api =Retrofit.Builder()
             .baseUrl(_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -48,7 +49,7 @@ class CardsDataSource {
 
     suspend fun getCards(name: String): ArrayList<Card>{
         Log.d(_TAG,"Cards Datasource Get")
-
+        delay(5000)
         val api =Retrofit.Builder()
             .baseUrl(_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

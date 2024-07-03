@@ -3,7 +3,9 @@ package ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +23,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var viewModel: SearchViewModel
     private lateinit var imageButton: ImageButton
     private lateinit var searchView: SearchView
-
+    lateinit var pb : ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,7 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
+        pb = findViewById(R.id.progressbar)
         cvCards = findViewById(R.id.cvCards)
         cvCards.layoutManager = LinearLayoutManager(this)
         adapter = CardsAdapter()
@@ -40,6 +43,7 @@ class SearchActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
         viewModel.cards.observe(this) {
+            pb.visibility = View.INVISIBLE
             adapter.update(it)
         }
 
@@ -72,6 +76,7 @@ class SearchActivity : AppCompatActivity() {
         Log.d("SearchActivity", "Received query: $color")
         Log.d("SearchActivity", "Received query: $name")
 
+        pb.visibility= View.VISIBLE
         if (!color.isNullOrEmpty()) {
                 viewModel.init(name,color)
             }else{
