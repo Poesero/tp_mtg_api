@@ -1,5 +1,6 @@
 package ui
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,10 +19,10 @@ class FavViewmodel: ViewModel() {
     private var card: MutableLiveData<Card> = MutableLiveData<Card>()
     var cards: MutableLiveData<ArrayList<Card>> = MutableLiveData<ArrayList<Card>>()
 
-    fun init(name: String){
+    fun init(name: String, context: Context){
         scope.launch{
             kotlin.runCatching {
-                cardsRepo.getCards(name)
+                cardsRepo.getCards(name,context)
             }.onSuccess {
                 Log.d(_TAG,"Cards on success: ${cards.value} ")
                 cards.postValue(it)

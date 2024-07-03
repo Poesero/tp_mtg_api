@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
-    private lateinit var searchBtn: ImageButton
     private lateinit var favBtn: ImageButton
     private lateinit var randBtn: ImageButton
     private lateinit var searchView: SearchView
@@ -63,17 +62,22 @@ class MainActivity : AppCompatActivity() {
         green = findViewById (R.id.toggleBtn_G)
 
         favBtn = findViewById(R.id.fav_btn)
-        searchBtn = findViewById(R.id.search_btn)
         randBtn = findViewById(R.id.random_btn)
 
         firebaseAuth = FirebaseAuth.getInstance()
 
         bindViewModel()
 
+    /*
         searchBtn.setOnClickListener{
             val intent = Intent(this, SearchActivity::class.java)
+            intent.putExtra("name",name)
+            if (color.isNotEmpty()){
+                intent.putExtra("color",color)
+            }
             startActivity(intent)
-        }
+    */
+
         favBtn.setOnClickListener{
             val intent = Intent(this,FavActivity::class.java)
             startActivity(intent)
@@ -138,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.onStart()
+        viewModel.onStart("",this)
     }
 
     private fun checkUser(){

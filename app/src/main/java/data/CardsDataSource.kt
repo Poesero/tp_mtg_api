@@ -1,10 +1,12 @@
 package data
 
+import android.content.Context
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import data.dbLocal.AppDatabase
+import data.dbLocal.toCardList
 import kotlinx.coroutines.delay
 import model.Card
-
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -47,9 +49,17 @@ class CardsDataSource {
         }
     }
 
-    suspend fun getCards(name: String): ArrayList<Card>{
+    suspend fun getCards(name: String, context: Context): ArrayList<Card>{
         Log.d(_TAG,"Cards Datasource Get")
+
+        var  db = AppDatabase.getInstance(context)
+        var cardLocal = db.cardsDao().getAll()
+        if (cardLocal.size>0){
+            return cardLocal.toCardList() as ArrayList<Card>
+        }
+
         delay(5000)
+
         val api =Retrofit.Builder()
             .baseUrl(_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

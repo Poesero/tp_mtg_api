@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide
 import com.example.tp_mtg_api.R
 
 class DetailActivity : AppCompatActivity() {
-    private lateinit var imageButton: ImageButton
     private lateinit var favBtn: ToggleButton
     private lateinit var cardImg: ImageView
     private lateinit var cardName: TextView
@@ -43,7 +42,6 @@ class DetailActivity : AppCompatActivity() {
         cardName = findViewById(R.id.card_name)
         oracleTxt = findViewById(R.id.oracle_txt)
         typeTxt = findViewById(R.id.type_line)
-        imageButton = findViewById(R.id.step_back)
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
 
 
@@ -51,15 +49,12 @@ class DetailActivity : AppCompatActivity() {
         val name = intent.getStringExtra("name") ?: ""
         Log.d("DetailActivity", "Received query: $name")
 
-        imageButton.setOnClickListener{
-            finish()
-        }
 
         pb.visibility= View.VISIBLE
         if (isRandom){
             viewModel.fetchRandomCard()
         } else
-            viewModel.init(name)
+            viewModel.init(name,this)
 
         viewModel.card.observe(this,Observer{ card ->
             card?.let {

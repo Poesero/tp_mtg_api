@@ -12,7 +12,7 @@ fun CardLocal.toCard() = Card(
     "",
     type_line,
     oracle_text,
-    image_uris = null
+    //image_uris = null
 )
 
 fun List<CardLocal>.toCardList() =map(CardLocal::toCard)
@@ -22,7 +22,7 @@ fun Card.toCardLocal() = CardLocal(
     name,
     type_line,
     oracle_text,
-    image_uris ?: CardImages("")
+    //image_uris ?: CardImages("")
 )
 
 fun List<Card>.toCardLocalList() = map(Card::toCardLocal)

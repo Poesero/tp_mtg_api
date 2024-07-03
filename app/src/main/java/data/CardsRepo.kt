@@ -1,13 +1,13 @@
 package data
-
+import android.content.Context
 import model.Card
 
 class CardsRepo {
 
     private val cardsDS = CardsDataSource()
 
-    suspend fun  getCards(name:String) : ArrayList<Card>{
-        return cardsDS.getCards(name)
+    suspend fun  getCards(name:String, context: Context) : ArrayList<Card>{
+        return cardsDS.getCards(name,context)
     }
 
     suspend fun getRandom(): Card {

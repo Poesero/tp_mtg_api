@@ -10,5 +10,5 @@ data class CardLocal(
     @PrimaryKey var name: String,
     var type_line: String? = null,
     var oracle_text: String? = null,
-    var image_uris: CardImages? = null
+    //var image_uris: CardImages? = null
 )

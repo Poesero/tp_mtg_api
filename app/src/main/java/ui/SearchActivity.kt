@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -45,6 +46,8 @@ class SearchActivity : AppCompatActivity() {
         viewModel.cards.observe(this) {
             pb.visibility = View.INVISIBLE
             adapter.update(it)
+
+            Toast.makeText(this@SearchActivity, "Cards found: ${it.size}", Toast.LENGTH_LONG).show()
         }
 
         searchView = findViewById(R.id.searchView)
@@ -53,7 +56,8 @@ class SearchActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
-                    viewModel.init(it)
+                    pb.visibility= View.VISIBLE
+                    viewModel.init("",this@SearchActivity)
                 }
                 searchView.clearFocus()
                 return true
@@ -77,10 +81,11 @@ class SearchActivity : AppCompatActivity() {
         Log.d("SearchActivity", "Received query: $name")
 
         pb.visibility= View.VISIBLE
+
         if (!color.isNullOrEmpty()) {
                 viewModel.init(name,color)
             }else{
-                viewModel.init(name)
+                viewModel.init(name,this)
             }
 
 

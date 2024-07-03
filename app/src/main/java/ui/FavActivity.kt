@@ -46,7 +46,7 @@ class FavActivity : AppCompatActivity() {
             finish()
         }
 
-        viewModel.init("")
+        viewModel.init("",this)
 
 
         adapter.onItemClick = { card ->
