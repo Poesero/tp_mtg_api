@@ -68,9 +68,16 @@ class SearchActivity : AppCompatActivity() {
         }
 
         val name = intent.getStringExtra("name")!!
+        val color = intent.getStringExtra("color")
+        Log.d("SearchActivity", "Received query: $color")
         Log.d("SearchActivity", "Received query: $name")
 
-        viewModel.init(name)
+        if (!color.isNullOrEmpty()) {
+                viewModel.init(name,color)
+            }else{
+                viewModel.init(name)
+            }
+
 
         adapter.onItemClick = { card ->
             val intent = Intent(this@SearchActivity, DetailActivity::class.java).apply {

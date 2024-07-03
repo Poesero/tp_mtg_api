@@ -36,4 +36,23 @@ class SearchViewModel : ViewModel() {
         }
 
     }
+
+    fun init(name: String,color: String){
+        scope.launch{
+            kotlin.runCatching {
+                cardsRepo.getCardsColors(name,color)
+            }.onSuccess {
+                Log.d(_TAG,"Cards on success: ${cards.value} ")
+                cards.postValue(it)
+                if (it.isNotEmpty()) {
+                    card.postValue(it[0])
+                }
+            }.onFailure {
+                val carb = Card(name = "ERROR")
+                carb.name = "Error."
+                card.postValue(Card(name = "ERROR"))
+            }
+        }
+
+    }
 }

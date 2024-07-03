@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         //checkUser()
 
+        var color = ""
+
         searchView = findViewById(R.id.searchView)
         searchView.isIconified = false
         searchView.clearFocus()
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity() {
                 query?.let {
                     val intent = Intent(this@MainActivity,SearchActivity::class.java)
                     intent.putExtra("name",it)
+                    if (color.isNotEmpty()){
+                        intent.putExtra("color",color)
+                    }
                     startActivity(intent)
                 }
                 searchView.clearFocus()
@@ -78,6 +83,56 @@ class MainActivity : AppCompatActivity() {
             putExtra("random",true)
             }
             startActivity(intent)
+        }
+
+        white.setOnCheckedChangeListener{ _, isChecked->
+            if (isChecked) {
+                if (!color.contains("W")) {
+                    color += "W"
+                }
+            } else {
+                color = color.replace("W", "")
+            }
+        }
+
+        blue.setOnCheckedChangeListener{ _, isChecked->
+            if (isChecked) {
+                if (!color.contains("U")) {
+                    color += "U"
+                }
+            } else {
+                color = color.replace("U", "")
+            }
+        }
+
+        black.setOnCheckedChangeListener{ _, isChecked->
+            if (isChecked) {
+                if (!color.contains("B")) {
+                    color += "B"
+                }
+            } else {
+                color = color.replace("B", "")
+            }
+        }
+
+        red.setOnCheckedChangeListener{ _, isChecked->
+            if (isChecked) {
+                if (!color.contains("R")) {
+                    color += "R"
+                }
+            } else {
+                color = color.replace("R", "")
+            }
+        }
+
+        green.setOnCheckedChangeListener{ _, isChecked->
+            if (isChecked) {
+                if (!color.contains("G")) {
+                    color += "G"
+                }
+            } else {
+                color = color.replace("G", "")
+            }
         }
     }
 

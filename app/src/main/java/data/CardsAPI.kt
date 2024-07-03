@@ -11,4 +11,7 @@ interface CardsAPI {
 
     @GET("cards/random")
     suspend fun getRandom() : Card
+
+    @GET("cards/search")
+    suspend fun getCardsColors(@Query("q") query : String): CardResult
 }
