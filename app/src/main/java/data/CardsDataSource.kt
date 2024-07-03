@@ -1,13 +1,14 @@
 package data
 
 import android.util.Log
+import com.google.firebase.firestore.FirebaseFirestore
 import model.Card
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class CardsDataSource {
-
+    val db = FirebaseFirestore.getInstance()
     private val _BASE_URL = "https://api.scryfall.com"
     private val _TAG = "API-CHECK"
 
