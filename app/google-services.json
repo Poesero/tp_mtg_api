@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "795618817390-j916hiov2rmn38r4rr6i55thk7qjmrl8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tp_mtg_api",
+            "certificate_hash": "383c7492223a7404f80b2528142f75302f4e5ae5"
+          }
+        },
+        {
           "client_id": "795618817390-mju81f2dnn9qk14444h4pqanggm4at40.apps.googleusercontent.com",
           "client_type": 3
         }
