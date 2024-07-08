@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun cardsDao(): CardsDAO
+    abstract fun cardsDao(): CardsDAO   
 
     companion object{
         @Volatile

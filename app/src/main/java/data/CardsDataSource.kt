@@ -5,31 +5,35 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import data.dbLocal.AppDatabase
 import data.dbLocal.toCardList
+import data.dbLocal.toCardLocalList
 import kotlinx.coroutines.delay
 import model.Card
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class CardsDataSource {
-    companion object{
+    companion object {
         val db = FirebaseFirestore.getInstance()
         private val api: CardsAPI
         private val _BASE_URL = "https://api.scryfall.com/"
         private val _TAG = "API-CHECK"
 
-        init{
+        init {
             api = Retrofit.Builder()
                 .baseUrl(_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(CardsAPI::class.java)
         }
-        suspend fun getCardsColors(name: String,color: String): ArrayList<Card>{
-            Log.d(_TAG,"Cards Datasource GetColorCards")
-            delay(5000)
+
+        suspend fun getCardsColors(name: String, color: String): ArrayList<Card> {
+            Log.d(_TAG, "Cards Datasource GetColorCards")
+            delay(3000)
 
             return try {
-                val query ="$name color>=$color"
-                Log.d(_TAG,query)
+                val query = "$name color>=$color"
+                Log.d(_TAG, query)
                 val result = api.getCardsColors(query)
                 Log.d(_TAG, "Resultado Exitoso")
                 Log.d(_TAG, "${result.data} \n size:${result.data.size}")
@@ -40,8 +44,8 @@ class CardsDataSource {
             }
         }
 
-        suspend fun getRandom(): Card{
-            val api =Retrofit.Builder()
+        suspend fun getRandom(): Card {
+            val api = Retrofit.Builder()
                 .baseUrl(_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(CardsAPI::class.java)
@@ -54,18 +58,28 @@ class CardsDataSource {
             }
         }
 
-        suspend fun getCards(name: String, context: Context): ArrayList<Card>{
-            Log.d(_TAG,"Cards Datasource Get")
+        suspend fun getCards(name: String, context: Context): ArrayList<Card> {
+            Log.d(_TAG, "Cards Datasource Get")
 
-            var  db = AppDatabase.getInstance(context)
+            var db = AppDatabase.getInstance(context)
             var cardLocal = db.cardsDao().getAll()
-            if (cardLocal.size>0){
+            if (cardLocal.isNotEmpty()) {
                 return cardLocal.toCardList() as ArrayList<Card>
             }
 
-            delay(5000)
+            delay(3000)
 
-            var result = api.getCards(name)
+            var result = api.getCards(name).execute()
+            return if (result.isSuccesful) {
+                val cardList = result.body() ?: ArrayList<Card>()
+                if (cardList.isNotEmpty()) {
+                    db.cardsDao().save(*cardList.toCardLocalList().toTypedArray())
+                }
+                cardList
+            } else {
+                ArrayList<Card>()
+            }
+            /*
             return try {
                 val result = api.getCards(name)
                 Log.d(_TAG, "Resultado Exitoso")
@@ -74,8 +88,40 @@ class CardsDataSource {
             } catch (e: Exception) {
                 Log.e(_TAG, "Error en llamado API: ${e.message}")
                 ArrayList<Card>()
-            }
-        }
-    }
+            }*/
 
+        }
+
+
+        suspend fun getCard(name: String): Card? {
+
+            var carta = suspendCoroutine<Card?> { continuation ->
+                db.collection("cards").document(name).get().addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        var c = it.result.toObject(Card::class.java)
+                        continuation.resume(c)
+                    } else {
+                        continuation.resume(null)
+                    }
+                }
+            }
+
+            if (carta != null) {
+                return carta
+            }
+            delay(5000)
+            var result = api.getCards(name).execute()
+            if (result.isSuccesful) {
+                val cards = result.body() ?: return null
+                val card = cards.singleOrNull()
+
+                return card
+            } else {
+                return null
+            }
+
+        }
+
+
+    }
 }
