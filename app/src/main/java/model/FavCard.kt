@@ -1,6 +1,6 @@
 package model
 
-data class FavCard (var id: String, var img: String)
+data class FavCard (var name: String, var img: String)
 {
     constructor() : this("","")
 }
