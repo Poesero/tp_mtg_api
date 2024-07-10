@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.example.tp_mtg_api.R
 
 class DetailActivity : AppCompatActivity() {
+    private lateinit var back: ImageButton
     private lateinit var favBtn: ToggleButton
     private lateinit var cardImg: ImageView
     private lateinit var cardName: TextView
@@ -37,12 +38,18 @@ class DetailActivity : AppCompatActivity() {
         }
 
         pb = findViewById(R.id.progressbar)
+        back = findViewById(R.id.step_back)
         favBtn = findViewById(R.id.fav_btn)
         cardImg = findViewById(R.id.card_img)
         cardName = findViewById(R.id.card_name)
         oracleTxt = findViewById(R.id.oracle_txt)
         typeTxt = findViewById(R.id.type_line)
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
+
+        back.setOnClickListener {
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
+        }
 
 
         val isRandom = intent.getBooleanExtra("random", false)

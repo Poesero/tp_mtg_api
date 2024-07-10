@@ -8,6 +8,7 @@ data class Card (
         var toughness: String? = null,
         var type_line: String? = null,
         var oracle_text: String? = null,
-        var image_uris: CardImages? = null,
+        var image_uris: CardImages? = null
        // var colors: CardColors? = null,
 )
+{ constructor() : this("","","","","","","",CardImages(""))}

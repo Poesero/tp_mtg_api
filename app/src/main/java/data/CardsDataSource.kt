@@ -15,14 +15,14 @@ import kotlin.coroutines.suspendCoroutine
 
 class CardsDataSource {
     companion object {
-        val db = FirebaseFirestore.getInstance()
+        private val db = FirebaseFirestore.getInstance()
         private val api: CardsAPI
-        private val _BASE_URL = "https://api.scryfall.com/"
+        private val API_BASE_URL = "https://api.scryfall.com/"
         private val _TAG = "API-CHECK"
 
         init {
             api = Retrofit.Builder()
-                .baseUrl(_BASE_URL)
+                .baseUrl(API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(CardsAPI::class.java)
         }
@@ -46,7 +46,7 @@ class CardsDataSource {
 
         suspend fun getRandom(): Card {
             val api = Retrofit.Builder()
-                .baseUrl(_BASE_URL)
+                .baseUrl(API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(CardsAPI::class.java)
             return try {
@@ -69,9 +69,10 @@ class CardsDataSource {
 
             delay(3000)
 
-            var result = api.getCards(name).execute()
-            return if (result.isSuccesful) {
-                val cardList = result.body() ?: ArrayList<Card>()
+            var result = api.getCards(name)//.execute()
+            /*
+            return if (result.isSuccessful) {
+                var cardList = result.body() ?: ArrayList<Card>()
                 if (cardList.isNotEmpty()) {
                     db.cardsDao().save(*cardList.toCardLocalList().toTypedArray())
                 }
@@ -79,7 +80,8 @@ class CardsDataSource {
             } else {
                 ArrayList<Card>()
             }
-            /*
+
+             */
             return try {
                 val result = api.getCards(name)
                 Log.d(_TAG, "Resultado Exitoso")
@@ -88,11 +90,11 @@ class CardsDataSource {
             } catch (e: Exception) {
                 Log.e(_TAG, "Error en llamado API: ${e.message}")
                 ArrayList<Card>()
-            }*/
+            }
 
         }
 
-
+/*
         suspend fun getCard(name: String): Card? {
 
             var carta = suspendCoroutine<Card?> { continuation ->
@@ -109,12 +111,15 @@ class CardsDataSource {
             if (carta != null) {
                 return carta
             }
+
             delay(5000)
             var result = api.getCards(name).execute()
             if (result.isSuccesful) {
                 val cards = result.body() ?: return null
                 val card = cards.singleOrNull()
-
+                if (card != null){
+                    db.collection("cards").document(name).set(card)
+                }
                 return card
             } else {
                 return null
@@ -122,6 +127,8 @@ class CardsDataSource {
 
         }
 
-
+    */
     }
+
+
 }

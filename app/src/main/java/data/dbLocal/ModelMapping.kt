@@ -1,18 +1,20 @@
 package data.dbLocal
 
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import model.Card
-import model.CardImages
+
 
 
 fun CardLocal.toCard() = Card(
-    obj,
+    obj ?: "",
     "",
     name,
     "",
     "",
-    type_line,
-    oracle_text,
-    //image_uris = null
+    type_line ?: "",
+    oracle_text ?: "",
+
 )
 
 fun List<CardLocal>.toCardList() =map(CardLocal::toCard)
@@ -20,9 +22,9 @@ fun List<CardLocal>.toCardList() =map(CardLocal::toCard)
 fun Card.toCardLocal() = CardLocal(
     obj ?: "",
     name,
-    type_line,
-    oracle_text,
-    //image_uris ?: CardImages("")
+    type_line ?:"",
+    oracle_text ?:"",
+
 )
 
 fun List<Card>.toCardLocalList() = map(Card::toCardLocal)
