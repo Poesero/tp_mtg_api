@@ -62,9 +62,9 @@ class CardsDataSource {
             Log.d(_TAG, "Cards Datasource Get")
 
             var db = AppDatabase.getInstance(context)
-            var cardLocal = db.cardsDao().getAll()
-            if (cardLocal.isNotEmpty()) {
-                return cardLocal.toCardList() as ArrayList<Card>
+            var cardsLocal = db.cardsDao().getAll()
+            if (cardsLocal.isNotEmpty()) {
+                return cardsLocal.toCardList() as ArrayList<Card>
             }
 
             delay(3000)
