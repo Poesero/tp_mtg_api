@@ -6,12 +6,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import data.dbLocal.AppDatabase
 import data.dbLocal.toCardList
 import data.dbLocal.toCardLocalList
-import kotlinx.coroutines.delay
 import model.Card
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+
 
 class CardsDataSource {
     companion object {
@@ -27,108 +25,77 @@ class CardsDataSource {
                 .build().create(CardsAPI::class.java)
         }
 
-        suspend fun getCardsColors(name: String, color: String): ArrayList<Card> {
+         fun getCardsColors(name: String, color: String): ArrayList<Card> {
             Log.d(_TAG, "Cards Datasource GetColorCards")
-            delay(3000)
 
             return try {
                 val query = "$name color>=$color"
                 Log.d(_TAG, query)
-                val result = api.getCardsColors(query)
-                Log.d(_TAG, "Resultado Exitoso")
-                Log.d(_TAG, "${result.data} \n size:${result.data.size}")
-                result.data
+                val response = api.getCardsColors(query).execute()
+
+                if (response.isSuccessful) {
+                    val result = response.body()
+                    Log.d(_TAG, "Resultado Exitoso")
+                    Log.d(_TAG, "${result?.data} \n size:${result?.data?.size}")
+                    result?.data ?: ArrayList()
+                } else {
+                    Log.e(_TAG, "Error en llamado API: ${response.errorBody()?.string()}")
+                    ArrayList()
+                }
             } catch (e: Exception) {
                 Log.e(_TAG, "Error en llamado API: ${e.message}")
-                ArrayList<Card>()
+                ArrayList()
             }
         }
 
-        suspend fun getRandom(): Card {
+        fun getRandom(): Card? {
             val api = Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(CardsAPI::class.java)
             return try {
-                val result = api.getRandom()
-                result
+                val response = api.getRandom().execute()
+                if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    Log.e(_TAG, "Error en llamado API: ${response.errorBody()?.string()}")
+                    null
+                }
             } catch (e: Exception) {
                 Log.e(_TAG, "Error en llamado API: ${e.message}")
-                throw e
+                null
             }
         }
 
-        suspend fun getCards(name: String, context: Context): ArrayList<Card> {
+        fun getCards(name: String, context: Context): ArrayList<Card> {
             Log.d(_TAG, "Cards Datasource Get")
 
-            var db = AppDatabase.getInstance(context)
-            var cardsLocal = db.cardsDao().getAll()
+            val db = AppDatabase.getInstance(context)
+            AppDatabase.clean(context)
+            val cardsLocal = db.cardsDao().getAll()
             if (cardsLocal.isNotEmpty()) {
+                Log.d(_TAG, "Returning cards from local database")
                 return cardsLocal.toCardList() as ArrayList<Card>
             }
 
-            delay(3000)
+            val response = api.getCards(name).execute()
 
-            var result = api.getCards(name)//.execute()
-            /*
-            return if (result.isSuccessful) {
-                var cardList = result.body() ?: ArrayList<Card>()
+            return if (response.isSuccessful) {
+                val cardResult = response.body()
+                val cardList = cardResult?.data ?: ArrayList()
+
                 if (cardList.isNotEmpty()) {
                     db.cardsDao().save(*cardList.toCardLocalList().toTypedArray())
                 }
+
+                Log.d(_TAG, "Cards fetched from API: ${cardList.size}")
                 cardList
             } else {
-                ArrayList<Card>()
+                Log.e(_TAG, "Error fetching cards: ${response.errorBody()?.string()}")
+                ArrayList()
             }
-
-             */
-            return try {
-                val result = api.getCards(name)
-                Log.d(_TAG, "Resultado Exitoso")
-                Log.d(_TAG, "${result.data} \n size:${result.data.size}")
-                result.data
-            } catch (e: Exception) {
-                Log.e(_TAG, "Error en llamado API: ${e.message}")
-                ArrayList<Card>()
-            }
-
         }
 
-/*
-        suspend fun getCard(name: String): Card? {
 
-            var carta = suspendCoroutine<Card?> { continuation ->
-                db.collection("cards").document(name).get().addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        var c = it.result.toObject(Card::class.java)
-                        continuation.resume(c)
-                    } else {
-                        continuation.resume(null)
-                    }
-                }
-            }
-
-            if (carta != null) {
-                return carta
-            }
-
-            delay(5000)
-            var result = api.getCards(name).execute()
-            if (result.isSuccesful) {
-                val cards = result.body() ?: return null
-                val card = cards.singleOrNull()
-                if (card != null){
-                    db.collection("cards").document(name).set(card)
-                }
-                return card
-            } else {
-                return null
-            }
-
-        }
-
-    */
     }
-
-
 }

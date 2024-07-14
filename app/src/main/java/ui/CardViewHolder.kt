@@ -13,8 +13,8 @@ class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
     fun bind(imageUrl: String) {
         Glide.with(itemView.context)
             .load(imageUrl)
-            .placeholder(R.drawable.default_img) // Placeholder image while loading
-            .error(R.drawable.default_img) // Error image if loading fails
+            .placeholder(R.drawable.default_img)
+            .error(R.drawable.default_img)
             .into(img)
     }
 }

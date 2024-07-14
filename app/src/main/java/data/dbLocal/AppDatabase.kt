@@ -5,15 +5,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Database(
     entities = [CardLocal::class],
     version = 1,
     exportSchema = false
 )
+
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cardsDao(): CardsDAO   
 
@@ -29,8 +32,8 @@ abstract class AppDatabase : RoomDatabase() {
             .fallbackToDestructiveMigration()
             .build()
 
-        suspend fun clean(context: Context) = coroutineScope {
-            launch(Dispatchers.IO) {
+        fun clean(context: Context) {
+            CoroutineScope(Dispatchers.IO).launch {
                 getInstance(context).clearAllTables()
             }
         }

@@ -5,21 +5,18 @@ import model.Card
 class CardsRepo {
 
 
-    suspend fun getCards(name: String, context: Context): ArrayList<Card> {
+    fun getCards(name: String, context: Context): ArrayList<Card> {
         return CardsDataSource.getCards(name, context)
     }
 
-    suspend fun getRandom(): Card {
+    fun getRandom(): Card? {
         return CardsDataSource.getRandom()
     }
 
-    suspend fun getCardsColors(name: String, color: String): ArrayList<Card> {
+    fun getCardsColors(name: String, color: String): ArrayList<Card> {
         return CardsDataSource.getCardsColors(name, color)
     }
 
-    /*
-    suspend fun getCard(name: String) : Card?{
-        return CardsDataSource.getCard(name)
-    }
-    */
+
+
 }
