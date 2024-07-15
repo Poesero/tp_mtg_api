@@ -6,9 +6,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import data.dbLocal.AppDatabase
 import data.dbLocal.toCardList
 import data.dbLocal.toCardLocalList
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeout
 import model.Card
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 class CardsDataSource {
@@ -67,34 +72,71 @@ class CardsDataSource {
             }
         }
 
-        fun getCards(name: String, context: Context): ArrayList<Card> {
+        suspend fun getCards(name: String, context: Context): ArrayList<Card> {
             Log.d(_TAG, "Cards Datasource Get")
 
             val db = AppDatabase.getInstance(context)
             AppDatabase.clean(context)
-            val cardsLocal = db.cardsDao().getAll()
-            if (cardsLocal.isNotEmpty()) {
+
+            val cardsLocal = db.cardsDao().getBySubstring(name)
+            if (cardsLocal.isNotEmpty() && cardsLocal.any { it.name.contains(name) }) {
                 Log.d(_TAG, "Returning cards from local database")
                 return cardsLocal.toCardList() as ArrayList<Card>
             }
 
-            val response = api.getCards(name).execute()
+            val firestore = FirebaseFirestore.getInstance()
+            val firestoreCards = suspendCoroutine<List<Card>?> { continuation ->
+                firestore.collection("cards")
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val cards = task.result?.toObjects(Card::class.java)?.filter { it.name.contains(name, ignoreCase = true) }
+                            continuation.resume(cards)
+                        } else {
+                            continuation.resume(null)
+                        }
+                    }
+            }
 
-            return if (response.isSuccessful) {
-                val cardResult = response.body()
-                val cardList = cardResult?.data ?: ArrayList()
-
-                if (cardList.isNotEmpty()) {
-                    db.cardsDao().save(*cardList.toCardLocalList().toTypedArray())
-                }
-
-                Log.d(_TAG, "Cards fetched from API: ${cardList.size}")
-                cardList
+            return if (firestoreCards != null && firestoreCards.isNotEmpty()) {
+                Log.d(_TAG, "Returning cards from Firestore")
+                db.cardsDao().save(*firestoreCards.toCardLocalList().toTypedArray())
+                firestoreCards as ArrayList<Card>
             } else {
-                Log.e(_TAG, "Error fetching cards: ${response.errorBody()?.string()}")
-                ArrayList()
+                try {
+                    val response = api.getCards(name).execute()
+
+                    if (response.isSuccessful) {
+                        val cardResult = response.body()
+                        val cardList = cardResult?.data ?: ArrayList()
+
+                        if (cardList.isNotEmpty()) {
+                            val batch = firestore.batch()
+                            cardList.forEach { card ->
+                                val docRef = firestore.collection("cards").document(card.name.replace("//", "__"))
+                                batch.set(docRef, card)
+                            }
+                            batch.commit().await()
+                            Log.d(_TAG, "Cards data saved successfully to Firestore")
+
+                            db.cardsDao().save(*cardList.toCardLocalList().toTypedArray())
+                        }
+
+                        Log.d(_TAG, "Cards fetched from API: ${cardList.size}")
+                        cardList
+                    } else {
+                        Log.e(_TAG, "Error fetching cards: ${response.errorBody()?.string()}")
+                        ArrayList()
+                    }
+                } catch (e: Exception) {
+                    Log.e(_TAG, "Error fetching or saving cards data", e)
+                    ArrayList()
+                }
             }
         }
+
+
+
 
 
     }

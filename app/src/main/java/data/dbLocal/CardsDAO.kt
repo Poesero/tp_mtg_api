@@ -13,6 +13,10 @@ interface CardsDAO {
     @Query("SELECT * FROM cards")
     fun getAll() : List<CardLocal>
 
+
+    @Query("SELECT * FROM cards WHERE name LIKE '%' || :name || '%'")
+    fun getBySubstring(name: String): List<CardLocal>
+
     @Query("SELECT * FROM cards WHERE name = :name LIMIT 1")
     fun getByPK(name: String):CardLocal
 

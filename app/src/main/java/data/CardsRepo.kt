@@ -5,7 +5,7 @@ import model.Card
 class CardsRepo {
 
 
-    fun getCards(name: String, context: Context): ArrayList<Card> {
+    suspend fun getCards(name: String, context: Context): ArrayList<Card> {
         return CardsDataSource.getCards(name, context)
     }
 

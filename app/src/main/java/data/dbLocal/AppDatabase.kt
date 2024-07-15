@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 
 @Database(
     entities = [CardLocal::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 
@@ -32,7 +32,7 @@ abstract class AppDatabase : RoomDatabase() {
             .fallbackToDestructiveMigration()
             .build()
 
-        fun clean(context: Context) {
+        suspend fun clean(context: Context) {
             CoroutineScope(Dispatchers.IO).launch {
                 getInstance(context).clearAllTables()
             }

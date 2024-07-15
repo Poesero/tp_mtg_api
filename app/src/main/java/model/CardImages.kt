@@ -1,5 +1,8 @@
 package model
 
 data class CardImages (
-        var png: String
-)
+        var png: String = ""
+) {
+
+        constructor() : this("")
+}
