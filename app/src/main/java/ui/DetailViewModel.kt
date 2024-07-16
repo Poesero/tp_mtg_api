@@ -22,12 +22,6 @@ class DetailViewModel : ViewModel() {
     fun init(name: String, context: Context) {
         coroutineScope.launch {
             kotlin.runCatching {
-                cardsRepo.getCards(name,context)
-            }.onSuccess {
-                Log.d(_TAG,"Cards on success: ${card.value} ")
-                card.postValue(card.value)
-                if (it.isNotEmpty()) {
-                    card.postValue(it[0])
                 cardsRepo.getCards(name, context)
             }.onSuccess { cards ->
                 Log.d(_TAG, "Cards on success: ${card.value} ")
