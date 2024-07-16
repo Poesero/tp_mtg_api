@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
                         intent.putExtra("color",color)
                     }
                     startActivity(intent)
+                    finish()
                 }
                 searchView.clearFocus()
                 return true

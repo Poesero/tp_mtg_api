@@ -19,10 +19,10 @@ class DetailViewModel : ViewModel() {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     var card: MutableLiveData<Card> = MutableLiveData()
 
-    fun init(name: String, context: Context) {
+    fun init(name: String) {
         coroutineScope.launch {
             kotlin.runCatching {
-                cardsRepo.getCards(name, context)
+                cardsRepo.getCard(name)
             }.onSuccess { cards ->
                 Log.d(_TAG, "Cards on success: ${card.value} ")
                 if (cards.isNotEmpty()) {

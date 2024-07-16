@@ -68,7 +68,7 @@ class DetailActivity : AppCompatActivity() {
         if (isRandom) {
             viewModel.fetchRandomCard()
         } else
-            viewModel.init(name,this)
+            viewModel.init(name)
 
         viewModel.card.observe(this, Observer { card ->
             card?.let {

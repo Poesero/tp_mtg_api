@@ -9,6 +9,10 @@ class CardsRepo {
         return CardsDataSource.getCards(name, context)
     }
 
+    fun getCard(name: String): ArrayList<Card> {
+        return CardsDataSource.getCard(name)
+    }
+
     fun getRandom(): Card? {
         return CardsDataSource.getRandom()
     }
