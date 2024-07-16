@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //checkUser()
-
         var color = ""
 
         searchView = findViewById(R.id.searchView)
@@ -67,16 +65,6 @@ class MainActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         bindViewModel()
-
-    /*
-        searchBtn.setOnClickListener{
-            val intent = Intent(this, SearchActivity::class.java)
-            intent.putExtra("name",name)
-            if (color.isNotEmpty()){
-                intent.putExtra("color",color)
-            }
-            startActivity(intent)
-    */
 
         favBtn.setOnClickListener{
             val intent = Intent(this,FavActivity::class.java)

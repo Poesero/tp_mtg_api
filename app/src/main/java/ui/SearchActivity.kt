@@ -90,11 +90,18 @@ class SearchActivity : AppCompatActivity() {
 
 
         adapter.onItemClick = { card ->
-            val intent = Intent(this@SearchActivity, DetailActivity::class.java).apply {
-                putExtra("name", card.name)
+            if (card != null) {
+                val intent = Intent(this@SearchActivity, DetailActivity::class.java).apply {
+                    Log.e("CardName","received: ${card.name}")
+                    putExtra("name", card.name)
+                    Log.e("CardName2","received: ${card.name}")
+                }
+                startActivity(intent)
+                finish()
+            } else {
+                Log.e("attention" ,"Clicked card is null")
+                // Handle null card case if necessary
             }
-            startActivity(intent)
-            finish()
         }
 
     }

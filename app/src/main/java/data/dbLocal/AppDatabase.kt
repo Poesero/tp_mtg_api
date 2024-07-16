@@ -1,43 +1,38 @@
 package data.dbLocal
 
-
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @Database(
-    entities = [CardLocal::class],
-    version = 2,
+    entities = [CardLocal::class, FavoriteCard::class],
+    version = 3,
     exportSchema = false
 )
-
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun cardsDao(): CardsDAO   
+    abstract fun cardsDao(): CardsDAO
+    abstract fun favoriteCardsDao(): FavoritesCardsDAO
 
-    companion object{
+    companion object {
         @Volatile
         private var _instance: AppDatabase? = null
 
         fun getInstance(context: Context): AppDatabase = _instance ?: synchronized(this) {
-          _instance ?: buildDatabase(context)
+            _instance ?: buildDatabase(context).also { _instance = it }
         }
 
-        private fun buildDatabase(context: Context) : AppDatabase = Room.databaseBuilder(context, AppDatabase::class.java, "app_database_demo")
-            .fallbackToDestructiveMigration()
-            .build()
+        private fun buildDatabase(context: Context): AppDatabase = Room.databaseBuilder(
+            context, AppDatabase::class.java, "app_database_demo"
+        ).fallbackToDestructiveMigration().build()
 
-        suspend fun clean(context: Context) {
+        fun clean(context: Context) {
             CoroutineScope(Dispatchers.IO).launch {
                 getInstance(context).clearAllTables()
             }
         }
-
     }
 }
-

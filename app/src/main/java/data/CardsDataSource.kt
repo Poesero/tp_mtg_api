@@ -4,17 +4,15 @@ import android.content.Context
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import data.dbLocal.AppDatabase
+import data.dbLocal.FavoriteCard
 import data.dbLocal.toCardList
 import data.dbLocal.toCardLocalList
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withTimeout
 import model.Card
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-
 
 class CardsDataSource {
     companion object {
@@ -30,7 +28,7 @@ class CardsDataSource {
                 .build().create(CardsAPI::class.java)
         }
 
-         fun getCardsColors(name: String, color: String): ArrayList<Card> {
+        fun getCardsColors(name: String, color: String): ArrayList<Card> {
             Log.d(_TAG, "Cards Datasource GetColorCards")
 
             return try {
@@ -54,10 +52,6 @@ class CardsDataSource {
         }
 
         fun getRandom(): Card? {
-            val api = Retrofit.Builder()
-                .baseUrl(API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build().create(CardsAPI::class.java)
             return try {
                 val response = api.getRandom().execute()
                 if (response.isSuccessful) {
@@ -98,7 +92,7 @@ class CardsDataSource {
                     }
             }
 
-            return if (firestoreCards != null && firestoreCards.isNotEmpty()) {
+            return if (!firestoreCards.isNullOrEmpty()) {
                 Log.d(_TAG, "Returning cards from Firestore")
                 db.cardsDao().save(*firestoreCards.toCardLocalList().toTypedArray())
                 firestoreCards as ArrayList<Card>

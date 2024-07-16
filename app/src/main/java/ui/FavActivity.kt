@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tp_mtg_api.R
 
 class FavActivity : AppCompatActivity() {
-    private lateinit var  imageButton: ImageButton
+    private lateinit var imageButton: ImageButton
     private lateinit var adapter: CardsAdapter
     private lateinit var viewModel: FavViewmodel
     private lateinit var cvCards: RecyclerView
@@ -34,20 +34,18 @@ class FavActivity : AppCompatActivity() {
         cvCards.adapter = adapter
 
         viewModel = ViewModelProvider(this)[FavViewmodel::class.java]
-        viewModel.cards.observe(this){
+        viewModel.cards.observe(this) {
             adapter.update(it)
         }
 
-
         imageButton = findViewById(R.id.step_back)
         imageButton.setOnClickListener {
-            var intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        viewModel.init("",this)
-
+        viewModel.init(this)
 
         adapter.onItemClick = { card ->
             val intent = Intent(this@FavActivity, DetailActivity::class.java).apply {

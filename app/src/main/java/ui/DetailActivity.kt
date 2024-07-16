@@ -17,6 +17,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.tp_mtg_api.R
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var back: ImageButton
@@ -26,7 +31,9 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var oracleTxt: TextView
     private lateinit var typeTxt: TextView
     private lateinit var viewModel: DetailViewModel
-    lateinit var pb : ProgressBar
+    private lateinit var pb: ProgressBar
+    private var userId: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -44,28 +51,29 @@ class DetailActivity : AppCompatActivity() {
         cardName = findViewById(R.id.card_name)
         oracleTxt = findViewById(R.id.oracle_txt)
         typeTxt = findViewById(R.id.type_line)
+
+        userId = FirebaseAuth.getInstance().currentUser?.email
+
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
 
         back.setOnClickListener {
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-
 
         val isRandom = intent.getBooleanExtra("random", false)
         val name = intent.getStringExtra("name") ?: ""
         Log.d("DetailActivity", "Received query: $name")
 
-
-        pb.visibility= View.VISIBLE
-        if (isRandom){
+        pb.visibility = ProgressBar.VISIBLE
+        if (isRandom) {
             viewModel.fetchRandomCard()
         } else
             viewModel.init(name,this)
 
-        viewModel.card.observe(this,Observer{ card ->
+        viewModel.card.observe(this, Observer { card ->
             card?.let {
-                pb.visibility = View.INVISIBLE
+                pb.visibility = ProgressBar.INVISIBLE
                 cardName.text = it.name
                 oracleTxt.text = it.oracle_text
                 typeTxt.text = it.type_line
