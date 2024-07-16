@@ -33,7 +33,6 @@ class DetailViewModel : ViewModel() {
                 card.postValue(Card(name = "Error"))
             }
         }
-
     }
 
     fun fetchRandomCard() {
