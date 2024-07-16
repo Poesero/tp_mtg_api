@@ -72,6 +72,7 @@ class SearchActivity : AppCompatActivity() {
         imageButton.setOnClickListener {
             var intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         val name = intent.getStringExtra("name")!!
@@ -96,6 +97,7 @@ class SearchActivity : AppCompatActivity() {
                     Log.e("CardName2","received: ${card.name}")
                 }
                 startActivity(intent)
+                finish()
             } else {
                 Log.e("attention" ,"Clicked card is null")
             }

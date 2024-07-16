@@ -58,6 +58,7 @@ class DetailActivity : AppCompatActivity() {
         back.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         val isRandom = intent.getBooleanExtra("random", false)

@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.onStart("",this)
+        viewModel.onStart("")
     }
 
     private fun checkUser(){

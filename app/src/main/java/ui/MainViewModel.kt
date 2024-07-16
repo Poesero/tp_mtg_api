@@ -21,10 +21,10 @@ class MainViewModel : ViewModel() {
     var cards = MutableLiveData<ArrayList<Card>>()
     var name = ""
 
-    fun onStart(name: String, context: Context){
+    fun onStart(name: String){
         scope.launch {
             kotlin.runCatching {
-                cardsRepo.getCards(name, context)
+                cardsRepo.getCard(name)
             }.onSuccess {
                 Log.d(_TAG_,"Cards on success ")
                 cards.postValue(it)

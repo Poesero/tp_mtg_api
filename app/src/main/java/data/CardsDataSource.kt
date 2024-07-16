@@ -89,7 +89,7 @@ class CardsDataSource {
             Log.d(_TAG, "Cards Datasource Get")
 
             val db = AppDatabase.getInstance(context)
-            //AppDatabase.clean(context)
+            AppDatabase.clean(context)
 
             val cardsLocal = db.cardsDao().getBySubstring(name)
             if (cardsLocal.isNotEmpty() && cardsLocal.any { it.name.contains(name) }) {
