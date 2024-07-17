@@ -72,7 +72,7 @@ class DetailActivity : AppCompatActivity() {
             viewModel.init(name)
 
         viewModel.card.observe(this, Observer { card ->
-            card?.let {
+            card?.let { it ->
                 pb.visibility = ProgressBar.INVISIBLE
                 cardName.text = it.name
                 oracleTxt.text = it.oracle_text
@@ -82,9 +82,48 @@ class DetailActivity : AppCompatActivity() {
                     .placeholder(R.drawable.default_img)
                     .error(R.drawable.default_img)
                     .into(cardImg)
+
+                updateFavoriteButtonState(it.name)
+
+                favBtn.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        addFavorite(it.name)
+                    } else {
+                        removeFavorite(it.name)
+                    }
+                }
             }
         })
+    }
 
+    private fun updateFavoriteButtonState(cardName: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val favorite = userId?.let { userId ->
+                viewModel.isFavorite(userId, cardName, this@DetailActivity)
+            }
+            Log.d("DetailActivity", "Is favorite: $favorite")
+            withContext(Dispatchers.Main) {
+                favBtn.isChecked = favorite ?: false
+            }
+        }
+    }
+
+    private fun addFavorite(cardName: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            userId?.let { userId ->
+                viewModel.addFavorite(userId, cardName, this@DetailActivity)
+                Log.d("DetailActivity", "Added $cardName as favorite")
+            }
+        }
+    }
+
+    private fun removeFavorite(cardName: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            userId?.let { userId ->
+                viewModel.removeFavorite(userId, cardName, this@DetailActivity)
+                Log.d("DetailActivity", "Removed $cardName from favorites")
+            }
+        }
     }
 
 

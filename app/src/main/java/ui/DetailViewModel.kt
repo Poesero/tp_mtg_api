@@ -47,4 +47,28 @@ class DetailViewModel : ViewModel() {
             }
         }
     }
+
+    fun isFavorite(userId: String, cardName: String, context: Context): Boolean {
+        val db = AppDatabase.getInstance(context)
+        val favoriteCard = db.favoriteCardsDao().isFavorite(userId, cardName)
+        return favoriteCard != null
+    }
+
+    fun addFavorite(userId: String, cardName: String, context: Context) {
+        val db = AppDatabase.getInstance(context)
+        db.favoriteCardsDao().addFavorite(FavoriteCard(cardName, userId))
+    }
+
+    fun removeFavorite(userId: String, cardName: String, context: Context) {
+        val db = AppDatabase.getInstance(context)
+        val favoriteCard = db.favoriteCardsDao().isFavorite(userId, cardName)
+        favoriteCard?.let {
+            db.favoriteCardsDao().removeFavorite(it)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        coroutineScope.cancel()
+    }
 }
