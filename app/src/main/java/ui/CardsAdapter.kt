@@ -31,8 +31,8 @@ class CardsAdapter : RecyclerView.Adapter<CardViewHolder>() {
         holder.itemView.setOnClickListener {
             onItemClick?.invoke(card)
             val id = items[position].name
-            val intent = Intent(holder.itemView.context, SearchActivity::class.java)
-            intent.putExtra("id", id)
+            val intent = Intent(holder.itemView.context, DetailActivity::class.java)
+            intent.putExtra("name", id)
             holder.itemView.context.startActivity(intent)
         }
 
