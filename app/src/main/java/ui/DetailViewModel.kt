@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 import data.CardsRepo
 import data.dbLocal.AppDatabase
 import data.dbLocal.FavoriteCard
@@ -54,18 +55,58 @@ class DetailViewModel : ViewModel() {
         return favoriteCard != null
     }
 
-    fun addFavorite(userId: String, cardName: String, context: Context) {
+    fun addFavorite(userId: String, card: Card, context: Context) {
         val db = AppDatabase.getInstance(context)
-        db.favoriteCardsDao().addFavorite(FavoriteCard(cardName, userId))
+        db.favoriteCardsDao().addFavorite(FavoriteCard(card.name, userId))
+
+        val firestore = FirebaseFirestore.getInstance()
+        val cardData = hashMapOf(
+            "name" to card.name,
+            "oracle_text" to card.oracle_text,
+            "type_line" to card.type_line,
+            "image_uris" to card.image_uris
+        )
+
+        firestore.collection("users")
+            .document(userId)
+            .collection("fav_cards")
+            .document("cards")
+            .collection("cards")
+            .document(card.name)
+            .set(cardData)
+            .addOnSuccessListener {
+                Log.d(_TAG, "Card successfully added to Firestore")
+            }
+            .addOnFailureListener { e ->
+                Log.w(_TAG, "Error adding card to Firestore", e)
+            }
     }
 
-    fun removeFavorite(userId: String, cardName: String, context: Context) {
+
+    fun removeFavorite(userId: String, card: Card, context: Context) {
         val db = AppDatabase.getInstance(context)
-        val favoriteCard = db.favoriteCardsDao().isFavorite(userId, cardName)
+        val favoriteCard = db.favoriteCardsDao().isFavorite(userId, card.name)
         favoriteCard?.let {
             db.favoriteCardsDao().removeFavorite(it)
         }
+
+        val firestore = FirebaseFirestore.getInstance()
+
+        firestore.collection("users")
+            .document(userId)
+            .collection("fav_cards")
+            .document("cards")
+            .collection("cards")
+            .document(card.name)
+            .delete()
+            .addOnSuccessListener {
+                Log.d(_TAG, "Card successfully removed from Firestore")
+            }
+            .addOnFailureListener { e ->
+                Log.w(_TAG, "Error removing card from Firestore", e)
+            }
     }
+
 
     override fun onCleared() {
         super.onCleared()

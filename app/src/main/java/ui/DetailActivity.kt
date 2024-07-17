@@ -21,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import model.Card
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var back: ImageButton
@@ -87,11 +88,12 @@ class DetailActivity : AppCompatActivity() {
 
                 favBtn.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
-                        addFavorite(it.name)
+                        addFavorite(it)
                     } else {
-                        removeFavorite(it.name)
+                        removeFavorite(it)
                     }
                 }
+
             }
         })
     }
@@ -108,23 +110,24 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun addFavorite(cardName: String) {
+    private fun addFavorite(card: Card) {
         CoroutineScope(Dispatchers.IO).launch {
             userId?.let { userId ->
-                viewModel.addFavorite(userId, cardName, this@DetailActivity)
-                Log.d("DetailActivity", "Added $cardName as favorite")
+                viewModel.addFavorite(userId, card, this@DetailActivity)
+                Log.d("DetailActivity", "Added ${card.name} as favorite")
             }
         }
     }
 
-    private fun removeFavorite(cardName: String) {
+    private fun removeFavorite(card: Card) {
         CoroutineScope(Dispatchers.IO).launch {
             userId?.let { userId ->
-                viewModel.removeFavorite(userId, cardName, this@DetailActivity)
-                Log.d("DetailActivity", "Removed $cardName from favorites")
+                viewModel.removeFavorite(userId, card, this@DetailActivity)
+                Log.d("DetailActivity", "Removed ${card.name} from favorites")
             }
         }
     }
+
 
 
 }

@@ -20,7 +20,7 @@ class FavViewmodel: ViewModel() {
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
-    private val mail = auth.currentUser?.uid ?: ""
+    private val email = auth.currentUser?.email ?: ""
 
     fun init(context: Context) {
         fetchFavorites()
@@ -29,13 +29,15 @@ class FavViewmodel: ViewModel() {
     private fun fetchFavorites() {
         scope.launch {
             firestore.collection("users")
-                .document(mail)
+                .document(email)
                 .collection("fav_cards")
+                .document("cards")
+                .collection("cards")
                 .get()
                 .addOnSuccessListener { documents ->
                     val favoriteCards = ArrayList<Card>()
                     for (document in documents) {
-                        document.toObject(Card::class.java)?.let { card ->
+                        document.toObject(Card::class.java).let { card ->
                             favoriteCards.add(card)
                         }
                     }
@@ -46,4 +48,6 @@ class FavViewmodel: ViewModel() {
                 }
         }
     }
+
+
 }
